@@ -4,7 +4,7 @@ steps:
 
 - name: node:latest
   entrypoint: npm
-  args: ['install --force']
+  args: ['install', '--force']
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/gsutil'
