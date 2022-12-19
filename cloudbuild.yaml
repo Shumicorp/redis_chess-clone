@@ -28,10 +28,10 @@ steps:
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest']
+  args: ['push', 'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push','europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
+  args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
 
 
 - name: 'gcr.io/cloud-builders/kubectl'
