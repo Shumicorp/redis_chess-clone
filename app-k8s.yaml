@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 6379
-            - containerPort: 80
+            - containerPort: 8080
 apiVersion: v1
 kind: Service
 metadata:
@@ -33,8 +33,8 @@ spec:
   ports:
     - name      : app-listener
       protocol  : TCP
-      port      : 80  # Port on Load Balancer
-      targetPort: 80  # Port on Pod
+      port      : 8080  # Port on Load Balancer
+      targetPort: 8080  # Port on Pod
   type: LoadBalancer      
 ---
 apiVersion: autoscaling/v2beta1
