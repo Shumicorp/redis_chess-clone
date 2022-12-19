@@ -1,0 +1,47 @@
+steps:
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone' ,'https://github.com/Shumicorp/redis_chess-clone','--branch', '$BRANCH_NAME', '--single-branch']
+
+- name: node:14
+  entrypoint: npm
+  args: ['install']
+  dir: 'redis_chess-clone'
+
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: [ 'cp', 'gs://buck-env-test-bucket/.env', '.']
+  dir: 'redis_chess-clone'
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+    'build', 
+    '-t', 
+    'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID',
+    '-t',
+    'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest',
+    '.'
+    ]
+  dir: 'redis_chess-clone'
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest']
+  
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
+
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'app-k8s.yaml']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+
+
+#- name: 'gcr.io/cloud-builders/kubectl'
+#  args: ['set', 'image', 'deployment','my-app','my-app=europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+#  env:
+#  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
+#  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+
+timeout: '1600s'
+options:
+  logging: CLOUD_LOGGING_ONLY
