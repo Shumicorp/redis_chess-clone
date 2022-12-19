@@ -2,9 +2,14 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone' ,'https://github.com/Shumicorp/redis_chess-clone','--branch', '$BRANCH_NAME', '--single-branch']
 
-- name: node:latest
+- name: node:14
   entrypoint: npm
   args: ['install', '--force']
+  dir: 'redis_chess-clone'
+
+- name: node:14
+  entrypoint: npm
+  args: ['audit', 'fix', '--force']
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/gsutil'
