@@ -20,9 +20,9 @@ steps:
   args: [
     'build', 
     '-t', 
-    'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID',
+    'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID',
     '-t',
-    'europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest',
+    'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest',
     '.'
     ]
   dir: 'redis_chess-clone'
@@ -42,11 +42,11 @@ steps:
 
 
 #- name: 'gcr.io/cloud-builders/kubectl'
-#  args: ['set', 'image', 'deployment','my-app','my-app=europe-west2-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+#  args: ['set', 'image', 'deployment','my-app','my-app=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
 #  env:
 #  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
 #  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
-
+serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
 options:
   logging: CLOUD_LOGGING_ONLY
