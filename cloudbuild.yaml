@@ -2,6 +2,10 @@ steps:
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone' ,'https://github.com/Shumicorp/redis_chess-clone','--branch', '$BRANCH_NAME', '--single-branch']
 
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: [ 'cp', 'gs://buck-env-test-bucket/.env', '.']
+  dir: 'redis_chess-clone'
+
 - name: node:16
   entrypoint: npm
   args: ['install', '--force']
@@ -11,10 +15,6 @@ steps:
 #  entrypoint: npm
 #  args: ['audit', 'fix', '--force']
 #  dir: 'redis_chess-clone'
-
-- name: 'gcr.io/cloud-builders/gsutil'
-  args: [ 'cp', 'gs://buck-env-test-bucket/.env', '.']
-  dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: [
