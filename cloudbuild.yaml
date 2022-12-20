@@ -3,7 +3,7 @@ steps:
   args: ['clone' ,'https://github.com/Shumicorp/redis_chess-clone','--branch', '$BRANCH_NAME', '--single-branch']
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: [ 'cp', 'gs://buck-env-test-bucket/.env', '.']
+  args: [ 'cp', 'gs://buck-env-test-bucket/env', './.env']
   dir: 'redis_chess-clone'
 
 - name: node:16
