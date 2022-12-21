@@ -35,8 +35,8 @@ steps:
 
 - name: 'gcr.io/cloud-builders/kubectl'
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=<your cluster zone>'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=<your cluster name>'
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
   - 'KUBECONFIG=/workspace/.kube/config'
   args: ['cluster-info']
 
