@@ -39,8 +39,8 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
-- name: 'gcr.io/$PROJECT_ID/cloud-builders-helm'
-  args: ['upgrade', '--install', 'redis', '--set', 'auth.password=$$dbpass', 'bitnami/redis']
+- name: 'gcr.io/cloud-builders/helm'
+  args: ['upgrade', '--install', 'redis', '--set', 'auth.password=$$dbpass', 'bitnami/redis','--namespace', 'filebeat']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
