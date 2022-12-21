@@ -46,7 +46,7 @@ steps:
 #   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
 - name: 'gcr.io/$PROJECT_ID/cloud-builders-helm'
-  args: ['--install', 'redis', 'bitnami/redis', '--set' 'auth.password=$$dbpass'  ]
+  args: ['install', 'redis', 'bitnami/redis', '--set' 'auth.password=$$dbpass'  ]
   secretEnv: ['dbpass']
   availableSecrets:
   secretManager:
