@@ -34,10 +34,10 @@ steps:
   args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
 
 - name: 'gcr.io/cloud-builders/kubectl'
- args: ['set', 'image', 'deployment','my-app','my-app=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
- env:
- - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
- - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+  args: ['set', 'image', 'deployment','my-app','my-app=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
 # - name: 'gcr.io/cloud-builders/kubectl'
 #   args: ['apply', '-f', 'app-k8s.yaml']
