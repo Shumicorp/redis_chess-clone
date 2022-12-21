@@ -65,10 +65,7 @@ steps:
   - 'TILLERLESS=true'
   - 'TILLER_NAMESPACE=redis'
   secretEnv: ['dbpass']
-  availableSecrets:
-  secretManager:
-  - versionName: projects/$PROJECT_ID/secrets/dbpass/versions/latest
-    env: 'dbpass'
+
 
 
 # - name: 'gcr.io/$PROJECT_ID/cloud-builders-helm'
@@ -79,7 +76,10 @@ steps:
 #   - versionName: projects/$PROJECT_ID/secrets/dbpass/versions/latest
 #     env: 'dbpass'
 
-
+availableSecrets:
+    secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/dbpass/versions/latest
+      env: 'dbpass'
 
 serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
