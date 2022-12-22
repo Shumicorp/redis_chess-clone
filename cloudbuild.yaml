@@ -11,11 +11,6 @@ steps:
   args: ['install', '--force']
   dir: 'redis_chess-clone'
 
-#- name: node:14
-#  entrypoint: npm
-#  args: ['audit', 'fix', '--force']
-#  dir: 'redis_chess-clone'
-
 - name: 'gcr.io/cloud-builders/docker'
   args: [
     'build', 
@@ -33,52 +28,13 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
 
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['create', 'ns', 'redis']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
-
-- name: 'gcr.io/cloud-builders/helm'
-  args: ['upgrade', '--install', 'redis', '--set', 'auth.password=$$dbpass', 'bitnami/redis','--namespace', 'filebeat']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
-  - 'HELM_REPO_NAME=bitnami'
-  - 'HELM_REPO_URL=https://charts.bitnami.com/bitnami'
-  - 'TILLERLESS=true'
-  - 'TILLER_NAMESPACE=redis'
-  secretEnv: ['dbpass']
 
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment','my-app','my-app=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+  args: ['apply', '-f', 'app-k8s.yaml']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
-  
-
-
-# - name: 'gcr.io/cloud-builders/kubectl'
-#   args: ['apply', '-f', 'app-k8s.yaml']
-#   env:
-#   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
-#   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
-
-
-
-# - name: 'gcr.io/$PROJECT_ID/cloud-builders-helm'
-#   args: ['install', 'redis', 'bitnami/redis', '--set' 'auth.password=$$dbpass'  ]
-#   secretEnv: ['dbpass']
-#   availableSecrets:
-#   secretManager:
-#   - versionName: projects/$PROJECT_ID/secrets/dbpass/versions/latest
-#     env: 'dbpass'
-
-availableSecrets:
-    secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/dbpass/versions/latest
-      env: 'dbpass'
 
 serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
