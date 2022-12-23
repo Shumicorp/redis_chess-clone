@@ -6,15 +6,16 @@ steps:
   args: [ 'cp', 'gs://buck-env-test-bucket/env', './.env']
   dir: 'redis_chess-clone'
 
+
 - name: node:16
   entrypoint: npm
   args: ['install', '--force']
   dir: 'redis_chess-clone'
 
-- name: node:14
-  entrypoint: npm
-  args: ['audit', 'fix', '--force']
-  dir: 'redis_chess-clone'
+# - name: node:16
+#   entrypoint: npm
+#   args: ['audit', 'fix', '--force']
+#   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: [
@@ -33,12 +34,20 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
 
-
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'app-k8s.yaml']
+  args: ['set', 'image', 'deployment','my-app','my-app=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+
+# - name: 'gcr.io/cloud-builders/kubectl'
+#   args: ['apply', '-f', 'app-k8s.yaml']
+#   env:
+#   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
+#   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
+
+
+
 
 serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
