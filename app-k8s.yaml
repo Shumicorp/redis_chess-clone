@@ -37,25 +37,25 @@ spec:
       port      : 8080  # Port on Load Balancer
       targetPort: 8080  # Port on Pod
   type: LoadBalancer      
----
-apiVersion: autoscaling/v2beta1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: my-autoscaling
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v2beta1v1
-    kind: Deployment
-    name: my-app
-  minReplicas: 1
-  maxReplicas: 3
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      targetAverageUtilization: 70
-  - type: Resource
-    resource:
-      name: memory
-      targetAverageUtilization: 80
+# ---
+# apiVersion: autoscaling/v2beta1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: my-autoscaling
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v2beta1v1
+#     kind: Deployment
+#     name: my-app
+#   minReplicas: 1
+#   maxReplicas: 3
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       targetAverageUtilization: 70
+#   - type: Resource
+#     resource:
+#       name: memory
+#       targetAverageUtilization: 80
 
