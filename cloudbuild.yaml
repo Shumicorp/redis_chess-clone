@@ -35,7 +35,7 @@ steps:
   args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment','my-app','app-php=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+  args: ['set', 'image', 'deployment','my-app','app-node=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
