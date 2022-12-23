@@ -15,7 +15,7 @@ spec:
         project: test-env
     spec:
       containers:
-        - name: app-php
+        - name: app-node
           image: europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest
           imagePullPolicy: Always
           ports:
