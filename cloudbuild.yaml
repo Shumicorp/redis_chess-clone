@@ -14,7 +14,6 @@ steps:
   - '-Dsonar.organization=shumicorp'
   - '-Dsonar.sources=.'
   secretEnv: ['TOKEN']
-tags: ['cloud-builders-community']
 
 - name: node:16
   entrypoint: npm
