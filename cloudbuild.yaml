@@ -6,6 +6,11 @@ steps:
   args: [ 'cp', 'gs://buck-env-test-bucket/env', './.env']
   dir: 'redis_chess-clone'
 
+- name: node:16
+  entrypoint: npm
+  args: ['install', '--force']
+  dir: 'redis_chess-clone'
+
 - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
   args:
   - '-Dsonar.host.url=https://sonarcloud.io'
@@ -14,11 +19,6 @@ steps:
   - '-Dsonar.organization=shumicorp'
   - '-Dsonar.sources=.'
   secretEnv: ['TOKEN']
-  dir: 'redis_chess-clone'
-
-- name: node:16
-  entrypoint: npm
-  args: ['install', '--force']
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -50,7 +50,7 @@ steps:
 #   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
 #   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
-
+tags: ['cloud-builders-community']
 availableSecrets:
   secretManager:
   - versionName: projects/PROJECT_ID/secrets/sonarqube-token/versions/latest
