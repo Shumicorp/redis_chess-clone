@@ -4,15 +4,16 @@ kind: Deployment
 metadata:
   name: my-app
   labels:
-    app: my-app
+    app: preprod-app
+  namespace: preprod
 spec:
   selector:
     matchLabels:
-      project: test-env
+      project: preprod-app
   template:
     metadata:
       labels:
-        project: test-env
+        project: preprod-app
     spec:
       containers:
         - name: app-node
@@ -27,35 +28,14 @@ kind: Service
 metadata:
   name: balanser
   labels:
-    project: test-env
+    project: preprod-app
+  namespace: preprod
 spec:
   selector:
-    project: test-env    # Selecting PODs with those Labels
+    project: preprod-app   # Selecting PODs with those Labels
   ports:
     - name      : app-listener
       protocol  : TCP
       port      : 8080  # Port on Load Balancer
       targetPort: 8080  # Port on Pod
   type: LoadBalancer      
-# ---
-# apiVersion: autoscaling/v2beta1
-# kind: HorizontalPodAutoscaler
-# metadata:
-#   name: my-autoscaling
-# spec:
-#   scaleTargetRef:
-#     apiVersion: apps/v2beta1v1
-#     kind: Deployment
-#     name: my-app
-#   minReplicas: 1
-#   maxReplicas: 3
-#   metrics:
-#   - type: Resource
-#     resource:
-#       name: cpu
-#       targetAverageUtilization: 70
-#   - type: Resource
-#     resource:
-#       name: memory
-#       targetAverageUtilization: 80
-

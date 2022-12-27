@@ -5,6 +5,7 @@ metadata:
   name: prod-app
   labels:
     app: prod-app
+  namespace: prod
 spec:
   selector:
     matchLabels:
@@ -28,6 +29,7 @@ metadata:
   name: balanser
   labels:
     project: prod-app
+  namespace: prod
 spec:
   selector:
     project: prod-app    # Selecting PODs with those Labels
