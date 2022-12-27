@@ -1,0 +1,61 @@
+---
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: prod-app
+  labels:
+    app: prod-app
+spec:
+  selector:
+    matchLabels:
+      project: prod-app
+  template:
+    metadata:
+      labels:
+        project: prod-app
+    spec:
+      containers:
+        - name: app-node
+          image: europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: balanser
+  labels:
+    project: prod-app
+spec:
+  selector:
+    project: prod-app    # Selecting PODs with those Labels
+  ports:
+    - name      : app-listener
+      protocol  : TCP
+      port      : 8080  # Port on Load Balancer
+      targetPort: 8080  # Port on Pod
+  type: LoadBalancer      
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v2beta1v1
+    kind: Deployment
+    name: prod-app
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 80
+
