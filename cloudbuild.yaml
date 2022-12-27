@@ -6,15 +6,14 @@ steps:
   args: [ 'cp', 'gs://buck-env-test-bucket/env', './.env']
   dir: 'redis_chess-clone'
 
-steps:
-  - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-    args:
-    - '-Dsonar.host.url=https://sonarcloud.io'
-    - '-Dsonar.login=$$TOKEN'
-    - '-Dsonar.projectKey=sonar-chess'
-    - '-Dsonar.organization=shumicorp'
-    - '-Dsonar.sources=.'
-    secretEnv: ['TOKEN']
+- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
+  args:
+  - '-Dsonar.host.url=https://sonarcloud.io'
+  - '-Dsonar.login=$$TOKEN'
+  - '-Dsonar.projectKey=sonar-chess'
+  - '-Dsonar.organization=shumicorp'
+  - '-Dsonar.sources=.'
+  secretEnv: ['TOKEN']
 tags: ['cloud-builders-community']
 
 - name: node:16
