@@ -14,6 +14,7 @@ steps:
   - '-Dsonar.organization=shumicorp'
   - '-Dsonar.sources=.'
   secretEnv: ['TOKEN']
+  dir: 'redis_chess-clone'
 
 - name: node:16
   entrypoint: npm
