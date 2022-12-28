@@ -54,8 +54,8 @@ availableSecrets:
   secretManager:
   - versionName: projects/PROJECT_ID/secrets/sonarqube-token/versions/latest
     env: TOKEN
-
-serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
+serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/service-account@gcp101091-mrusn.iam.gserviceaccount.com'
+#serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
 options:
   logging: CLOUD_LOGGING_ONLY
