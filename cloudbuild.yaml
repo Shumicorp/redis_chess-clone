@@ -50,7 +50,6 @@ steps:
 # #   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
 # #   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
 
-tags: ['cloud-builders-community']
 availableSecrets:
   secretManager:
   - versionName: projects/PROJECT_ID/secrets/sonarqube-token/versions/latest
@@ -60,3 +59,4 @@ serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
 options:
   logging: CLOUD_LOGGING_ONLY
+  logStreamingOption: STREAM_ON
