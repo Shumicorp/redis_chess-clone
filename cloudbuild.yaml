@@ -25,21 +25,21 @@ steps:
   args: [
     'build', 
     '-t', 
-    'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID',
     '-t',
-    'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:latest',
     '.'
     ]
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:latest']
+  args: ['push', 'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:latest']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push','europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID']  
+  args: ['push','europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID']  
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment','-n','preprod','my-app','app-node=europe-west1-docker.pkg.dev/gcp101091-mrusn/my-repo/redis_chess:$BUILD_ID','--record']
+  args: ['set', 'image', 'deployment','-n','preprod','my-app','app-node=europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID','--record']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
@@ -52,7 +52,7 @@ steps:
 
 availableSecrets:
   secretManager:
-  - versionName: projects/PROJECT_ID/secrets/sonarqube-token/versions/latest
+  - versionName: projects/$PROJECT_ID/secrets/sonarqube-token/versions/latest
     env: TOKEN
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 #serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
