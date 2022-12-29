@@ -6,20 +6,23 @@ steps:
   args: [ 'cp', 'gs://buck-env-test-bucket/env', './.env']
   dir: 'redis_chess-clone'
 
+- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
+  args: ['-c', '/opt/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner \
+   -Dsonar.host.url=https://sonarcloud.io \
+   -Dsonar.login=$$TOKEN \
+   -Dsonar.projectKey=sonar-chess \
+   -Dsonar.organization=shumicorp \
+   -Dsonar.sources=.' ]
+  secretEnv: ['TOKEN']
+  dir: 'redis_chess-clone'
+  secretEnv:
+    - TOKEN
+
 - name: node:16
   entrypoint: npm
   args: ['install', '--force']
   dir: 'redis_chess-clone'
 
-- name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-  args:
-  - '-Dsonar.host.url=https://sonarcloud.io'
-  - '-Dsonar.login=$$TOKEN'
-  - '-Dsonar.projectKey=sonar-chess'
-  - '-Dsonar.organization=shumicorp'
-  - '-Dsonar.sources=.'
-  secretEnv: ['TOKEN']
-  dir: 'redis_chess-clone'
 
 - name: 'gcr.io/cloud-builders/docker'
   args: [
@@ -55,7 +58,6 @@ availableSecrets:
   - versionName: projects/$PROJECT_ID/secrets/sonarqube-token/versions/latest
     env: TOKEN
 serviceAccount: 'projects/$PROJECT_ID/serviceAccounts/service-account@gcp101091-mrusn.iam.gserviceaccount.com'
-#serviceAccount: 'service-account@gcp101091-mrusn.iam.gserviceaccount.com'
 timeout: '1600s'
 options:
   logging: CLOUD_LOGGING_ONLY
