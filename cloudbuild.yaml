@@ -7,15 +7,10 @@ steps:
   dir: 'redis_chess-clone'
 
 - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-  args: ['-c', '/opt/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner \
-   -Dsonar.host.url=https://sonarcloud.io \
-   -Dsonar.login=$$TOKEN \
-   -Dsonar.projectKey=sonar-chess \
-   -Dsonar.organization=shumicorp \
-   -Dsonar.sources=.' ]
+  args: ['-c', '/opt/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$$TOKEN -Dsonar.projectKey=sonar-chess -Dsonar.organization=shumicorp -Dsonar.sources=.' ]
   secretEnv: ['TOKEN']
   dir: 'redis_chess-clone'
-  entrypoint: bash
+  entrypoint: 'bash'
   secretEnv:
     - TOKEN
 
