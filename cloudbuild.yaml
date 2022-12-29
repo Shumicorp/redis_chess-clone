@@ -14,7 +14,7 @@ steps:
   secretEnv:
     - TOKEN
 
-- name: node:16
+- name: 'gcr.io/$PROJECT_ID/my-node:latest'
   entrypoint: npm
   args: ['install', '--force']
   dir: 'redis_chess-clone'
