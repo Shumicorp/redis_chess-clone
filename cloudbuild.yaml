@@ -15,6 +15,7 @@ steps:
    -Dsonar.sources=.' ]
   secretEnv: ['TOKEN']
   dir: 'redis_chess-clone'
+  entrypoint: bash
   secretEnv:
     - TOKEN
 
