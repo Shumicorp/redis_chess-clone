@@ -23,7 +23,7 @@ steps:
   args: [
     'build', 
     '-t', 
-    'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID.$TAG_NAME',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$REF_NAME.$TAG_NAME',
     '-t',
     'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:latest',
     '.'
@@ -34,10 +34,10 @@ steps:
   args: ['push', 'europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:latest']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push','europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID']  
+  args: ['push','europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$REF_NAME.$TAG_NAME']  
 
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment','-n','preprod','my-app','app-node=europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$BUILD_ID','--record']
+  args: ['set', 'image', 'deployment','-n','preprod','my-app','app-node=europe-west1-docker.pkg.dev/$PROJECT_ID/my-repo/redis_chess:$REF_NAME.$TAG_NAME','--record']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=my-cluster'
